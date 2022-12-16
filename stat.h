@@ -10,6 +10,7 @@ namespace mtest
     {
         uint64_t min = 0;
         double p50 = 0;
+        double p95 = 0;
         double p99 = 0;
         double p999= 0;
         uint64_t max = 0;

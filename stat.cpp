@@ -63,6 +63,7 @@ namespace mtest
         out.max = results.back();
 
         out.p50   = get_percentile(results, 50);
+        out.p95   = get_percentile(results, 95);
         out.p99   = get_percentile(results, 99);
         out.p999  = get_percentile(results, 99.9);
     }

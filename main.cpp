@@ -268,6 +268,7 @@ namespace mtest
         std::cout << "| " << std::setw(6) << dataSize << '|';
         std::cout << std::setw(11) << st.min << '|';
         std::cout << std::setw(11) << st.p50 << '|';
+        std::cout << std::setw(11) << st.p95 << '|';
         std::cout << std::setw(11) << st.p99 << '|';
         std::cout << std::setw(11) << st.p999 << '|';
         std::cout << std::setw(11) << st.max << '|';
@@ -279,9 +280,9 @@ namespace mtest
         tWrite->setup_writer();
         tRead->setup_reader();
 
-        std::cout << "---------------------------------------------------------------------" << std::endl;
-        std::cout << "| bytes |       min |       50% |       99% |     99.9% |       max |" << std::endl;
-        std::cout << "---------------------------------------------------------------------" << std::endl;
+        std::cout << "------------------------------------------------------------------------------_--" << std::endl;
+        std::cout << "| bytes |   min(us) |   50%(us) |   95%(us) |   99%(us) | 99.9%(us) |   max(us) |" << std::endl;
+        std::cout << "---------------------------------------------------------------------------------" << std::endl;
 
         for (auto dataSize : DATA_SIZE_TO_TEST)
         {
@@ -289,7 +290,7 @@ namespace mtest
             exec_parentImpl(dataSize, tRead, tWrite, nloops, nwarmups);
         }
 
-        std::cout << "---------------------------------------------------------------------" << std::endl;
+        std::cout << "---------------------------------------------------------------------------------" << std::endl;
 
         tWrite->shutdown_writer();
         tRead->shutdown_reader();
