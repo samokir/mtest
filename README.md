@@ -8,7 +8,7 @@ cd <repository>
 ./build.sh
 
 **How to run**
-*usage: mtest <parent_cpu> <child_cpu> [<nloops> <nwarmups> <transports>]*
+*usage: mtest <parent_cpu> <child_cpu> \[<nloops> <nwarmups> <transports>\]*
 
 _Run tests for all default type transports, pipes (*pipe*), shared memory (*shmem*), unix domain sockets (*udsocket*):_
 ./build/mtest 0 3
