@@ -13,6 +13,8 @@
 
 #include <sched.h> // sched_setaffinity
 
+#include <immintrin.h> // _rdtsc
+
 namespace mtest
 {
     bool run_test(transport_creator tcreator,
@@ -172,9 +174,7 @@ namespace mtest
 
     uint64_t gettime_ns()
     {
-        timespec ts;
-        clock_gettime(CLOCK_MONOTONIC, &ts);
-        return ts.tv_sec * std::nano::den + ts.tv_nsec;
+        return __rdtsc();
     }
 
     constexpr std::array DATA_SIZE_TO_TEST = {4, 16, 64, 256, 1024, 4096, 16384, 65536};
@@ -216,6 +216,8 @@ namespace mtest
         tRead->shutdown_reader();
     }
 
+    double timeDiffK = 0.0;
+
     void exec_parentImpl(size_t dataSize, transport_ptr tRead, transport_ptr tWrite, size_t nloops, size_t nwarmups)
     {
         std::vector<int> outData(dataSize / sizeof(int));
@@ -254,7 +256,7 @@ namespace mtest
 
             if (i >= nwarmups)
             {
-                results[i-nwarmups] = (finish-start)/2;// half of the round-trip
+                results[i-nwarmups] = uint64_t(timeDiffK*(finish-start)/2);// half of the round-trip
             }
         }
         
@@ -279,6 +281,18 @@ namespace mtest
     {
         tWrite->setup_writer();
         tRead->setup_reader();
+
+        uint64_t t1, t2;
+        timespec ts = {1, 0};
+        do
+        {
+            t1 = gettime_ns();
+        }
+        while (nanosleep(&ts, nullptr) != 0);
+        t2 = gettime_ns();
+        auto tdiff = (t2 > t1) ? (t2 - t1) : (t1 - t2);
+        std::cout << "CPU frequency " << (tdiff/1000000) << "MHz" << std::endl;
+        timeDiffK = 1000000000.0/tdiff;
 
         std::cout << "------------------------------------------------------------------------------_--" << std::endl;
         std::cout << "| bytes |   min(us) |   50%(us) |   95%(us) |   99%(us) | 99.9%(us) |   max(us) |" << std::endl;
