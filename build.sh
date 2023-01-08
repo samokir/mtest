@@ -1,14 +1,14 @@
 #!/usr/bin/bash
 
-cur_dir=$(dirname $0)
-buld_dir="$cur_dir/build"
+cur_dir=$(readlink -f $(dirname $0))
+build_dir="$cur_dir/build"
 
-rm -rf "$buld_dir"
-mkdir "$buld_dir"
+rm -rf "$build_dir"
+mkdir "$build_dir"
 
-cd $buld_dir
-cmake .. 
+cd $build_dir
+cmake ..
 
-cd $cur_dir
 make -sj4
+cd $cur_dir
 
