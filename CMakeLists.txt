@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25.1)
+cmake_minimum_required(VERSION 3.16.1)
 project (mtest)
 
 add_compile_options(-O3 -ggdb -std=c++20 -Wextra)

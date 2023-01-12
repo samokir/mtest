@@ -30,3 +30,14 @@ usage: mtest <parent_cpu> <child_cpu> [<nloops> <nwarmups> <transports>]
 ```
 LD_PRELOAD=./build/libmtest_ext.so ./build/mtest 1 2 10000 1000 'shmem2|udsocket2'
 ```
+
+For IRQs isolation via (tuna)[https://manpages.ubuntu.com/manpages/focal/en/man8/tuna.8.html] out of working CPUs use the *run.sh* script:
+```
+./run.sh <parent_cpu> <child_cpu> [<nloops> <nwarmups> <transports>]
+```
+
+**How to install tuna**
+```
+sudo apt-get update
+sudo apt-get -y install tuna
+```
